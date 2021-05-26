@@ -10,6 +10,9 @@ public class CooldownService {
 
     private static Map<UUID, LocalDateTime> playerOfflineTimeMap;
 
+    private CooldownService() {
+    }
+
     public static void setPlayerOfflineTime(Player player, LocalDateTime dateTime) {
         playerOfflineTimeMap.put(player.getUniqueId(), dateTime);
     }

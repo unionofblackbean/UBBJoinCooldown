@@ -11,15 +11,21 @@ import java.time.temporal.ChronoUnit;
 
 public class PlayerJoinEventListener implements Listener {
 
+    private final long cooldownSecond;
+
+    public PlayerJoinEventListener(long cooldownSecond) {
+        this.cooldownSecond = cooldownSecond;
+    }
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         LocalDateTime playerOfflineTime = CooldownService.getPlayerOfflineTime(player);
         if (playerOfflineTime != null) {
-            if (playerOfflineTime.until(LocalDateTime.now(), ChronoUnit.SECONDS) >= 30) {
+            if (playerOfflineTime.until(LocalDateTime.now(), ChronoUnit.SECONDS) >= cooldownSecond) {
                 CooldownService.removePlayerOfflineTime(event.getPlayer());
             } else {
-                player.kickPlayer("Please wait 30 seconds before joining the server again!");
+                player.kickPlayer(String.format("Please wait %d seconds before joining the server again!", cooldownSecond));
             }
         }
     }

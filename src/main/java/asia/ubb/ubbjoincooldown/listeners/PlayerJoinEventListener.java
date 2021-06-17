@@ -15,10 +15,12 @@ public class PlayerJoinEventListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         LocalDateTime playerOfflineTime = CooldownService.getPlayerOfflineTime(player);
-        if (playerOfflineTime.until(LocalDateTime.now(), ChronoUnit.SECONDS) >= 30) {
-            CooldownService.removePlayerOfflineTime(event.getPlayer());
-        } else {
-            player.kickPlayer("Please wait 30 seconds before joining the server again!");
+        if (playerOfflineTime != null) {
+            if (playerOfflineTime.until(LocalDateTime.now(), ChronoUnit.SECONDS) >= 30) {
+                CooldownService.removePlayerOfflineTime(event.getPlayer());
+            } else {
+                player.kickPlayer("Please wait 30 seconds before joining the server again!");
+            }
         }
     }
 

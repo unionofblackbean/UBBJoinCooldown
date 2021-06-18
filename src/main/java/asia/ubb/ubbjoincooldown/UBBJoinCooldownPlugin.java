@@ -13,13 +13,8 @@ public class UBBJoinCooldownPlugin extends JavaPlugin {
         saveDefaultConfig();
 
         FileConfiguration config = getConfig();
-        String cooldownTimeString = config.getString("cooldown");
-
-        long cooldownSecond;
-        if (cooldownTimeString != null)
-            cooldownSecond = TimeUtils.parseSecond(cooldownTimeString);
-        else
-            cooldownSecond = 10;
+        String cooldownTimeString = config.getString("cooldown", "10s");
+        long cooldownSecond = TimeUtils.parseSecond(cooldownTimeString);
 
         getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(cooldownSecond), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitEventListener(), this);
